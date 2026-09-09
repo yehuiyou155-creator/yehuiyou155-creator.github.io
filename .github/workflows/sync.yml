@@ -1,0 +1,46 @@
+name: Sync app from source host
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch latest app files
+        env:
+          BASE: https://4457bf3d3f8b4aacb1a4b06869644f5f.app.workbuddy.link
+        run: |
+          ok=1
+          for f in index.html dorm-fatloss.html sw.js manifest.webmanifest icon.svg icon-192.png icon-512.png apple-touch-icon.png; do
+            code=$(curl -sSL --max-time 30 -o "$f" -w "%{http_code}" "$BASE/$f?sync=$GITHUB_RUN_ID" || echo 000)
+            echo "$f -> $code"
+            [ "$code" = "200" ] || ok=0
+          done
+          grep -q "宿舍减脂" index.html || ok=0
+          if [ "$ok" != "1" ]; then
+            echo "Source unreachable or invalid; keep current copy."
+            git checkout -- .
+            exit 0
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "sync: pull latest app from source host"
+            git push
+          fi
