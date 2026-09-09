@@ -5,12 +5,7 @@ var CACHE = "df-v4";
 var ASSETS = [
   "./",
   "./index.html",
-  "./style.css",
-  "./app1.js",
-  "./app2.js",
-  "./app3.js",
-  "./app4.js",
-  "./app5.js",
+  "./dorm-fatloss.html",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
@@ -36,6 +31,7 @@ self.addEventListener("fetch", function (e) {
   var req = e.request;
   if (req.method !== "GET") return;
 
+  /* 页面导航：先网络，断网回退缓存 */
   if (req.mode === "navigate") {
     e.respondWith(
       fetch(req).then(function (res) {
@@ -49,6 +45,7 @@ self.addEventListener("fetch", function (e) {
     return;
   }
 
+  /* 其余静态资源：缓存优先，后台静默更新 */
   e.respondWith(
     caches.match(req).then(function (hit) {
       var net = fetch(req).then(function (res) {
