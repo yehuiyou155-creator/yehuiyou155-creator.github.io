@@ -1,7 +1,7 @@
 /* 宿舍减脂记录工具 Service Worker
  * 导航请求 network-first（保证更新即时可见），静态资源 stale-while-revalidate。
  * 缓存命名 df-vN：改 index.html 时若静态资源也变了，请把 vN 升一位。 */
-var CACHE = "df-v2";
+var CACHE = "df-v4";
 var ASSETS = [
   "./",
   "./index.html",
@@ -36,7 +36,6 @@ self.addEventListener("fetch", function (e) {
   var req = e.request;
   if (req.method !== "GET") return;
 
-  /* 页面导航：先网络，断网回退缓存 */
   if (req.mode === "navigate") {
     e.respondWith(
       fetch(req).then(function (res) {
@@ -50,7 +49,6 @@ self.addEventListener("fetch", function (e) {
     return;
   }
 
-  /* 其余静态资源：缓存优先，后台静默更新 */
   e.respondWith(
     caches.match(req).then(function (hit) {
       var net = fetch(req).then(function (res) {
