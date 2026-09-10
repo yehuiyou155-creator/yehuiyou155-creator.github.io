@@ -4,7 +4,7 @@
 <meta charset="UTF-8" data-page-node-id="vieloDymyI18VEJ0wBCJUb">
 <!-- 移动端硬要求：不使用 user-scalable=no / maximum-scale，保证可缩放（WCAG 1.4.4） -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="lIqfWrTcWi1LivefKBvAwx">
-<meta name="theme-color" content="#007AFF" data-page-node-id="veCSMZave2q8A3VkRJyJaG">
+<meta name="theme-color" content="#294534">
 <!-- PWA：manifest/图标/SW 为同源自托管文件（非外部 CDN）；file:// 双击打开时这些声明加载失败会被浏览器静默忽略，不影响单文件使用 -->
 <link rel="manifest" href="manifest.webmanifest" data-page-node-id="9a8gjyyUaKz9pB7CSCgwwP">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" data-page-node-id="hqClf04qUd87cIQMNAcEy5">
@@ -23,53 +23,126 @@
    1. 设计令牌
    ============================================================ */
 :root{
-  /* —— iOS 系统色（HIG §3.1） —— */
-  --blue:#007AFF; --blue-d:#0A84FF;
-  --green:#34C759; --orange:#FF9500; --red:#FF3B30;
-  --teal:#30B0C7; --indigo:#5856D6; --pink:#FF2D55;
-  --label:#000000; --label-2:#8E8E93; --sep:#C6C6C8;
-  --fill:#E5E5EA;                      /* Fill Gray：输入框底 / 次按钮底 / 进度轨道 */
-  /* —— 语义映射：页面=次级背景灰，卡片=系统白，呈现 iOS 分组列表观感 —— */
-  --bg:#F2F2F7; --card:#FFFFFF; --ink:var(--label); --sub:var(--label-2); --line:var(--sep);
-  --sage:var(--blue); --sage-fill:var(--blue); --sage-l:rgba(0,122,255,.5); --sage-bg:rgba(0,122,255,.1);
-  --ok:var(--green); --warn:var(--orange); --warn-bg:rgba(255,149,0,.12); --warn-line:rgba(255,149,0,.35); --disabled:#AEAEB2;
-  --track:var(--fill); --chart-grid:var(--sep); --chart-axis:var(--label-2);
-  --tabbar-bg:rgba(249,249,249,.92); --modal-bg:#FFFFFF;
-  --toast-bg:rgba(0,0,0,.82); --toast-ink:#FFFFFF;
-  --r:14px; --r-sm:10px;
-  --fs-display:32px; --fs-title:22px; --fs-number:16px; --fs-body:16px; --fs-caption:13px;
-  --shadow:0 1px 2px rgba(0,0,0,.06);
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  /* 统一的动效曲线 */
+  /* —— 品牌绿（墨绿）：色相保留品类识别，明度下沉 + 降饱和 = 高级感来源 —— */
+  --brand-900:#12211A; --brand-800:#1C3227; --brand-700:#21392C;
+  --brand:#294534; --brand-600:#3A5A47; --brand-500:#4A6B55;
+  --brand-400:#6E8F78; --brand-300:#9AB5A2; --brand-200:#C3D3C8; --brand-100:#E3EBE5;
+  /* —— 暖中性层（高级化的主来源：纸感底 + 暖灰文字） —— */
+  --bg:#F7F5F0; --card:#FFFFFF; --card-2:#FBF9F5; --fill:#EDE9E0; --fill-2:#F1EEE7;
+  --ink:#1A1A17; --ink-2:#6B6A63; --ink-3:#8A887F; --separator:rgba(60,56,50,.24);
+  /* —— 金属点缀（面积 ≤2%：图标描边 / 徽章 / 图表高光） —— */
+  --copper:#8A5A2B; --copper-200:#C9A46B;
+  /* —— 状态语义：文字色与填充色分离，文字全部达 4.5:1 —— */
+  --warning-text:#9A5A12; --warning:#D98A2B; --warn-bg:rgba(217,138,43,.13); --warn-line:rgba(217,138,43,.34);
+  --danger-text:#B23A34; --danger:#C8503F;
+  --info-text:#0057D9; --info:#007AFF;
+  /* —— 数据身份色（仅用于图形，全部 ≥3:1） —— */
+  --c-protein:#2C6E8F; --c-carb:#B07A2E; --c-fat:#7A5C8C; --c-cardio:#3E7D6A; --c-strength:#5B5F8A;
+  /* —— 图表 —— */
+  --chart-grid:rgba(60,56,50,.16); --chart-axis:#6B6A63;
+  /* —— 角色映射与旧名保留（避免大范围改动） —— */
+  --accent:#294534;            /* 填充：按钮底 / 进度 / 选中填充 */
+  --accent-text:#294534;       /* 文字：链接 / 次级按钮 / 达标（10.5:1） */
+  --accent-tint:#E3EBE5;       /* tint 底：数据卡 / 选中行 */
+  --accent-line:rgba(41,69,52,.42);
+  --sage:var(--accent); --sage-fill:var(--accent); --sage-bg:var(--accent-tint); --sage-l:var(--accent-line);
+  --blue:var(--info-text); --blue-d:#0057D9;   /* 蓝色只剩「信息」一个角色 */
+  --green:#2F6A3F; --orange:var(--warning); --red:var(--danger); --teal:#3E7D6A; --indigo:#5B5F8A; --pink:#B05A72;
+  --label:var(--ink); --label-2:var(--ink-2); --sep:var(--separator);
+  --ok:var(--brand-700); --warn:var(--warning-text); --disabled:var(--ink-3);
+  --sub:var(--ink-2); --line:var(--separator); --track:var(--fill);
+  --scrim:rgba(26,26,23,.42);
+  --tabbar-bg:rgba(247,245,240,.92); --modal-bg:var(--card);
+  --toast-bg:rgba(26,26,23,.90); --toast-ink:#F7F5F0;
+  /* —— 圆角（5 档） —— */
+  --r-xs:8px; --r-sm:12px; --r-md:16px; --r-lg:28px; --r-pill:999px; --r:var(--r-md);
+  /* —— 间距（4pt 栅格） —— */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
+  /* —— 字号（8 档上限） —— */
+  --fs-display:44px; --fs-large:34px; --fs-title:22px; --fs-headline:17px; --fs-body:17px;
+  --fs-subhead:15px; --fs-footnote:13px; --fs-caption:12px; --fs-number:17px;
+  /* —— 阴影（仅浮层；卡片永不用阴影） —— */
+  --elev-1:0 2px 8px rgba(60,56,50,.10); --elev-2:0 12px 32px rgba(60,56,50,.16); --elev-3:0 24px 70px rgba(60,56,50,.24);
+  --shadow:var(--elev-1);
+  /* —— 动效：一套弹簧 + 一套缓出 + 三档时长 —— */
   --ease-spring:cubic-bezier(.32,.72,0,1);
+  --ease-out:cubic-bezier(.2,.8,.2,1);
   --ease-soft:cubic-bezier(.4,0,.2,1);
-  --dur-sheet:.34s; --dur-press:.14s; --dur-ring:1s;
+  --dur-fast:120ms; --dur-base:300ms; --dur-num:320ms;
+  --dur-sheet:var(--dur-base); --dur-press:var(--dur-fast); --dur-ring:var(--dur-num);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
 }
 
-/* 深色模式：iOS Dark 语义色，对比度达 WCAG AA */
+/* 深色模式：做「墨」而不是「黑」，品牌绿提亮、状态色提亮，全部达 WCAG AA */
 :root[data-theme="dark"]{
-  --blue:var(--blue-d);
-  --bg:#000000; --card:#1C1C1E; --ink:#FFFFFF; --sub:rgba(235,235,245,.6); --line:rgba(84,84,88,.65);
-  --sage:var(--blue); --sage-fill:var(--blue); --sage-l:rgba(10,132,255,.5); --sage-bg:rgba(10,132,255,.18);
-  --ok:var(--green); --warn:var(--orange); --warn-bg:rgba(255,149,0,.18); --warn-line:rgba(255,149,0,.4); --disabled:rgba(235,235,245,.3);
-  --fill:#2C2C2C; --track:var(--fill); --chart-grid:rgba(84,84,88,.65); --chart-axis:rgba(235,235,245,.6);
-  --tabbar-bg:rgba(0,0,0,.92); --modal-bg:#1C1C1E;
-  --toast-bg:rgba(235,235,245,.92); --toast-ink:#000000;
-  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --bg:#0E1210; --card:#171D1A; --card-2:#1F2724; --fill:#242C28; --fill-2:#1C2320;
+  --ink:#F2F0EB; --ink-2:rgba(242,240,235,.62); --ink-3:rgba(242,240,235,.40); --separator:rgba(242,240,235,.14);
+  --accent:#4A6B55; --accent-text:#9AB5A2; --accent-tint:rgba(154,181,162,.14); --accent-line:rgba(154,181,162,.42);
+  --sage:var(--accent); --sage-fill:var(--accent); --sage-bg:var(--accent-tint); --sage-l:var(--accent-line);
+  --blue:var(--accent-text);
+  --ok:#8FC79E;
+  --warning-text:#E0A458; --warning:#E0A458; --warn-bg:rgba(224,164,88,.18); --warn-line:rgba(224,164,88,.40);
+  --danger-text:#F0857C; --danger:#C8503F;
+  --info-text:#6FA8FF; --info:#0A84FF;
+  --c-protein:#6FA8C9; --c-carb:#D8A65C; --c-fat:#A98BBB; --c-cardio:#6FB29A; --c-strength:#8A8FC4;
+  --chart-grid:rgba(242,240,235,.14); --chart-axis:rgba(242,240,235,.60);
+  --track:var(--fill); --disabled:rgba(242,240,235,.38);
+  --scrim:rgba(0,0,0,.60);
+  --tabbar-bg:rgba(14,18,16,.92); --modal-bg:var(--card);
+  --toast-bg:rgba(242,240,235,.92); --toast-ink:#12211A;
+  --copper:#C9A46B; --copper-200:#C9A46B;
+  --elev-1:0 2px 8px rgba(0,0,0,.5); --elev-2:0 12px 32px rgba(0,0,0,.55); --elev-3:0 24px 70px rgba(0,0,0,.6);
+  --shadow:var(--elev-1);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;}
 body{
   font-family:var(--font); background:var(--bg); color:var(--ink);
-  font-size:var(--fs-body); line-height:1.55; -webkit-font-smoothing:antialiased;
+  font-size:var(--fs-body); line-height:1.42; -webkit-font-smoothing:antialiased;
 }
 .num,input[type=number],.tabular{font-variant-numeric:tabular-nums;}
-/* 字号阶梯 */
-.f-display{font-size:var(--fs-display);font-weight:700;line-height:1.15;}
-.f-title{font-size:var(--fs-title);font-weight:700;line-height:1.25;}
+/* 焦点态：键盘 / iPad 外接键盘可见（原实现缺失） */
+:focus{outline:none;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-xs);}
+/* 字号阶梯（8 档，中文标题不再用 700） */
+.f-display{font-size:var(--fs-display);font-weight:700;line-height:1.05;letter-spacing:-.5px;}
+.f-large{font-size:var(--fs-large);font-weight:600;line-height:1.1;letter-spacing:-.5px;}
+.f-title{font-size:var(--fs-title);font-weight:600;line-height:1.25;}
 .f-number{font-size:var(--fs-number);font-weight:700;}
 .f-body{font-size:var(--fs-body);font-weight:400;}
-.f-cap{font-size:var(--fs-caption);font-weight:400;color:var(--sub);line-height:1.5;}
+.f-cap{font-size:var(--fs-footnote);font-weight:400;color:var(--sub);line-height:1.6;}
+.u-unit{font-size:var(--fs-subhead);font-weight:500;color:var(--sub);margin-left:2px;}
+/* 数字滚动（文字局部过渡）：只换数字，不动未变文字 */
+.roll{display:inline-block;overflow:hidden;vertical-align:bottom;line-height:1.1;}
+.roll > i{display:block;font-style:normal;transition:transform var(--dur-num) var(--ease-out);}
+/* 按压状态机：按下 120ms 内反馈；移出范围衰减；按钮外松手不触发 */
+.pressable,.btn,.chip,.mini,.addbtn,.step-btn,.repbtn,.backlink,.tut-toggle,
+.tabbar > button,.seg > button,.del,.dayrow,.item,.pickrow,.day-pick{
+  touch-action:manipulation;
+}
+.pressed{transform:scale(.97) !important;filter:brightness(.94);}
+.pressed.pressed-out{transform:scale(.995) !important;filter:brightness(.99);}
+.btn,.chip,.mini,.addbtn,.step-btn,.repbtn,.backlink,.tut-toggle,.card,.item,.dayrow{
+  transition:transform var(--dur-fast) var(--ease-out),filter var(--dur-fast) var(--ease-out),
+             background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),
+             border-color var(--dur-fast) var(--ease-out),opacity var(--dur-fast) var(--ease-out);
+}
+/* 小控件热区补足：视觉尺寸不变，命中区 ≥44 */
+.chip,.mini,.day-pick{position:relative;}
+.chip::after,.mini::after,.day-pick::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%);}
+.sheet-hd .x::after,.del::after,.repbtn::after{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%);}
+/* 内联加载（按钮内 spinner，耗时操作 >300ms 时显示） */
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;
+  display:inline-block;vertical-align:-2px;margin-right:6px;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.btn.busy{pointer-events:none;opacity:.85;}
+/* 空态模板：图形 + 说明 + 一个主 CTA */
+.empty-st{text-align:center;padding:28px 12px 24px;}
+.empty-st .es-ic{width:56px;height:56px;margin:0 auto 12px;border-radius:50%;background:var(--accent-tint);
+  display:flex;align-items:center;justify-content:center;color:var(--accent-text);font-size:24px;line-height:1;}
+.empty-st .es-t{font-size:var(--fs-subhead);font-weight:600;color:var(--ink);}
+.empty-st .es-d{font-size:var(--fs-footnote);color:var(--sub);margin-top:6px;line-height:1.6;}
+.empty-st .es-a{margin-top:14px;}
 
 /* ============================================================
    2. 骨架
@@ -88,169 +161,220 @@ body{
 .topbar .sub{font-size:var(--fs-caption);color:var(--sub);margin-top:3px;
   transition:opacity var(--dur-press) ease,max-height var(--dur-press) ease,margin var(--dur-press) ease;overflow:hidden;}
 .topbar.scrolled .sub{opacity:0;max-height:0;margin-top:0;}
-.theme-btn{flex:0 0 auto;width:40px;height:40px;margin-top:4px;border:0;background:transparent;color:var(--blue);
+.theme-btn{flex:0 0 auto;width:44px;height:44px;margin-top:4px;border:0;background:transparent;color:var(--accent-text);
   border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
   transition:opacity var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
 .theme-btn:active{opacity:.5;}
 .theme-btn svg{width:22px;height:22px;display:block;}
-.view{display:none;padding:0 14px 16px;}
-.view.active{display:block;animation:viewIn .26s var(--ease-soft);}
-@keyframes viewIn{from{opacity:.35;transform:translateY(6px);}to{opacity:1;transform:none;}}
-.card{background:var(--card);border:0;border-radius:var(--r);padding:14px;margin-bottom:12px;}
-.card > h2{font-size:13px;font-weight:600;color:var(--sub);margin:0 0 10px;letter-spacing:.3px;text-transform:uppercase;}
-.row{display:flex;gap:10px;align-items:center;}
-.row-between{display:flex;gap:10px;align-items:center;justify-content:space-between;}
+.view{display:none;padding:0 var(--sp-4) var(--sp-4);}
+.view.active{display:block;animation:viewIn var(--dur-base) var(--ease-out);}
+@keyframes viewIn{from{opacity:.4;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.card{background:var(--card);border:0;border-radius:var(--r-md);padding:var(--sp-4);margin-bottom:var(--sp-3);}
+.card > h2{font-size:var(--fs-footnote);font-weight:600;color:var(--sub);margin:0 0 var(--sp-3);letter-spacing:0;text-transform:none;}
+.row{display:flex;gap:var(--sp-3);align-items:center;}
+.row-between{display:flex;gap:var(--sp-3);align-items:center;justify-content:space-between;}
 .spacer{flex:1;}
-.mt6{margin-top:6px;} .mt10{margin-top:10px;} .mt14{margin-top:14px;}
-.hr{height:1px;background:var(--line);margin:12px 0;border:0;}
+.mt4{margin-top:4px;} .mt6{margin-top:8px;} .mt10{margin-top:12px;} .mt14{margin-top:16px;}
+.mt20{margin-top:20px;} .mt24{margin-top:24px;}
+.hr{height:1px;background:var(--line);margin:var(--sp-3) 0;border:0;}
 
 /* ============================================================
    3. 表单控件（所有 input/select ≥16px，防 iOS 聚焦缩放）
    ============================================================ */
-label.fld{display:block;font-size:var(--fs-caption);color:var(--sub);margin:0 0 4px 2px;}
+label.fld{display:block;font-size:var(--fs-footnote);color:var(--sub);margin:0 0 var(--sp-1) 2px;}
 input[type=text],input[type=number],input[type=date],select,textarea{
-  font-family:var(--font); font-size:16px; color:var(--ink);
-  background:var(--fill); border:1px solid transparent; border-radius:var(--r-sm);
+  font-family:var(--font); font-size:var(--fs-body); color:var(--ink);
+  background:var(--card); border:1px solid var(--separator); border-radius:var(--r-sm);
   padding:10px 12px; width:100%; min-height:44px; outline:none;
   font-variant-numeric:tabular-nums;
-  transition:border-color var(--dur-press) ease, box-shadow var(--dur-press) ease;
+  transition:border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
-input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,122,255,.16);}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint);}
 input[disabled],select[disabled]{background:var(--fill);color:var(--disabled);opacity:.6;}
-input::placeholder{color:var(--disabled);}
+input::placeholder{color:var(--ink-3);}
 select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sub) 50%),linear-gradient(135deg,var(--sub) 50%,transparent 50%);background-position:calc(100% - 17px) 20px,calc(100% - 12px) 20px;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:34px;}
 .btn{
-  font-family:var(--font); font-size:15px; font-weight:600; min-height:44px; padding:0 16px;
-  border-radius:var(--r-sm); border:1px solid var(--sage-fill); background:var(--sage-fill); color:#fff;
+  font-family:var(--font); font-size:var(--fs-body); font-weight:600; min-height:50px; padding:0 var(--sp-4);
+  border-radius:var(--r-pill); border:1px solid var(--accent); background:var(--accent); color:#fff;
   cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;
-  transition:transform var(--dur-press) ease, background var(--dur-press) ease, box-shadow var(--dur-press) ease, filter var(--dur-press) ease;
   -webkit-tap-highlight-color:transparent;
 }
-.btn:active{filter:brightness(.93);transform:scale(.98);}
-.btn.ghost{background:var(--fill);color:var(--blue);border-color:transparent;}
-.btn.ghost:active{background:var(--fill);filter:brightness(.96);}
-.btn.subtle{background:var(--sage-bg);border-color:var(--sage-bg);color:var(--sage);}
-.btn.danger{background:var(--card);border-color:var(--warn);color:var(--warn);}
+.btn.ghost{background:var(--accent-tint);color:var(--accent-text);border-color:transparent;}
+.btn.subtle{background:var(--accent-tint);border-color:var(--accent-tint);color:var(--accent-text);}
+.btn.danger{background:var(--card);border-color:var(--danger);color:var(--danger-text);}
 .btn.block{display:flex;width:100%;}
-.btn.sm{min-height:36px;font-size:14px;padding:0 12px;}
-.btn[disabled]{background:var(--track);border-color:var(--line);color:var(--disabled);}
+.btn.sm{min-height:44px;font-size:var(--fs-subhead);padding:0 var(--sp-3);}
+.btn[disabled]{background:var(--fill);border-color:var(--separator);color:var(--disabled);pointer-events:none;}
 .seg{position:relative;display:flex;background:var(--fill);border-radius:var(--r-sm);padding:3px;gap:3px;}
-.seg-thumb{position:absolute;top:3px;left:3px;height:calc(100% - 6px);background:var(--card);border-radius:8px;box-shadow:var(--shadow);z-index:0;opacity:0;pointer-events:none;transition:transform var(--dur-sheet) var(--ease-spring),width var(--dur-sheet) var(--ease-spring),opacity .2s ease;}
-.seg > button{flex:1;min-height:38px;position:relative;z-index:1;border:0;background:transparent;border-radius:8px;font-size:15px;font-family:var(--font);color:var(--sub);cursor:pointer;font-weight:600;transition:color var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
-.seg > button[aria-pressed=true]{color:var(--ink);}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;}
-.chip{flex:0 0 auto;min-height:34px;padding:0 14px;border-radius:999px;border:0;background:var(--fill);color:var(--sub);font-size:14px;font-family:var(--font);cursor:pointer;display:inline-flex;align-items:center;transition:transform var(--dur-press) ease,background var(--dur-press) ease,color var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
-.chip:active{transform:scale(.96);}
-.chip[aria-pressed=true]{background:var(--blue);color:#fff;font-weight:600;}
-.mini{min-height:34px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);font-size:13px;font-family:var(--font);color:var(--sub);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform var(--dur-press) ease,background var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
-.mini:active{transform:scale(.96);}
-.mini.on{background:var(--sage);border-color:var(--sage);color:#fff;}
-.err{color:var(--warn);font-size:var(--fs-caption);margin-top:5px;}
+.seg-thumb{position:absolute;top:3px;left:3px;height:calc(100% - 6px);background:var(--card);border-radius:var(--r-xs);box-shadow:var(--elev-1);z-index:0;opacity:0;pointer-events:none;transition:transform var(--dur-base) var(--ease-spring),width var(--dur-base) var(--ease-spring),opacity .2s ease;}
+.seg > button{flex:1;min-height:44px;position:relative;z-index:1;border:0;background:transparent;border-radius:var(--r-xs);font-size:var(--fs-subhead);font-family:var(--font);color:var(--sub);cursor:pointer;font-weight:500;transition:color var(--dur-fast) var(--ease-out);-webkit-tap-highlight-color:transparent;}
+.seg > button[aria-pressed=true]{color:var(--ink);font-weight:600;}
+.chips{display:flex;gap:var(--sp-2);overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;}
+.chip{flex:0 0 auto;min-height:34px;padding:0 14px;border-radius:var(--r-pill);border:0;background:var(--fill);color:var(--sub);font-size:var(--fs-subhead);font-family:var(--font);cursor:pointer;display:inline-flex;align-items:center;-webkit-tap-highlight-color:transparent;}
+.chip[aria-pressed=true]{background:var(--accent);color:#fff;font-weight:600;}
+.mini{min-height:34px;padding:0 10px;border-radius:var(--r-xs);border:1px solid var(--separator);background:var(--card);font-size:var(--fs-footnote);font-family:var(--font);color:var(--sub);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.mini.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+.err{color:var(--warning-text);font-size:var(--fs-footnote);margin-top:5px;}
 .ok{color:var(--ok);}
-.warnc{color:var(--warn);}
+.warnc{color:var(--warning-text);}
 
 /* ============================================================
    4. 今日页：环形 / 剩余额度 / 餐次
    ============================================================ */
-.ring-wrap{display:flex;align-items:center;gap:14px;}
-.ring{width:118px;height:118px;flex:0 0 118px;position:relative;}
+.ring-wrap{display:flex;align-items:center;gap:var(--sp-4);}
+.ring{width:126px;height:126px;flex:0 0 126px;position:relative;}
 .ring svg{transform:rotate(-90deg);display:block;}
-.ring-fg{transition:stroke-dashoffset var(--dur-ring) var(--ease-soft);}
+.ring-fg{transition:stroke-dashoffset var(--dur-num) var(--ease-out);}
 .ring .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.ring .ctr .v{font-size:26px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
-.ring .ctr .l{font-size:11px;color:var(--sub);margin-top:3px;}
+.ring .ctr .v{font-size:28px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
+.ring .ctr .l{font-size:12px;color:var(--sub);margin-top:inherit;margin-top:4px;}
 .ring-info{flex:1;min-width:0;}
-.kv{display:flex;gap:8px;justify-content:space-between;font-size:13px;color:var(--sub);}
+.kv{display:flex;gap:var(--sp-2);justify-content:space-between;font-size:var(--fs-footnote);color:var(--sub);}
 .kv b{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:700;}
-.macros{display:flex;gap:8px;margin-top:12px;}
-.macro{flex:1;background:var(--sage-bg);border-radius:var(--r-sm);padding:8px 6px;text-align:center;}
-.macro .ml{font-size:11px;color:var(--sub);}
-.macro .mv{font-size:var(--fs-number);font-weight:700;font-variant-numeric:tabular-nums;margin-top:1px;}
-.bar{height:5px;background:var(--track);border-radius:3px;margin-top:6px;overflow:hidden;}
-.bar > i{display:block;height:100%;background:var(--sage);border-radius:3px;width:0;transition:width .55s var(--ease-soft);}
-.bar > i.over{background:var(--warn);}
-.suggest{background:var(--sage-bg);border-radius:var(--r-sm);padding:10px 12px;margin-top:10px;}
-.suggest .t{font-size:var(--fs-caption);color:var(--sub);margin-bottom:4px;}
-.suggest .li{font-size:14px;font-weight:600;padding:3px 0;font-variant-numeric:tabular-nums;}
-.mealcard{padding:12px 14px;}
-.mealhd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
-.mealhd .nm{font-weight:700;font-size:15px;}
-.mealhd .vv{font-size:14px;font-weight:700;color:var(--sub);font-variant-numeric:tabular-nums;}
-.mealhd .vv.over{color:var(--warn);}
-.item{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);}
+.macros{display:flex;gap:var(--sp-2);margin-top:var(--sp-3);}
+.macro{flex:1;background:var(--accent-tint);border-radius:var(--r-sm);padding:var(--sp-2) 6px;text-align:center;}
+.macro .ml{font-size:12px;color:var(--sub);}
+.macro .ml .dot{display:inline-block;width:7px;height:7px;border-radius:var(--r-pill);margin-right:5px;vertical-align:1px;}
+
+/* ============================================================
+   10. 分组标题 / 焦点区双主操作 / 详情层级（跟手返回载体）
+   ============================================================ */
+.grouphd{font-size:var(--fs-footnote);font-weight:600;color:var(--sub);padding:var(--sp-5) var(--sp-1) var(--sp-2);}
+.grouphd:first-child{padding-top:var(--sp-1);}
+.act-row{display:flex;gap:var(--sp-2);margin-bottom:var(--sp-3);}
+.act-row .btn{flex:1;min-width:0;}
+.mealhd.tap{cursor:pointer;border-radius:var(--r-xs);}
+.mealhd .chev{color:var(--disabled);font-size:15px;margin-left:4px;}
+
+/* 详情层级：从右滑入；跟手返回拖动时由 JS 直接写 transform */
+.detail{position:fixed;top:0;left:0;right:0;bottom:0;z-index:78;max-width:480px;margin:0 auto;
+  background:var(--bg);display:flex;flex-direction:column;
+  transform:translateX(100%);visibility:hidden;box-shadow:-12px 0 32px rgba(26,26,23,.14);}
+.detail.show{transform:translateX(0);visibility:visible;
+  transition:transform var(--dur-base) var(--ease-spring), visibility 0s linear 0s;}
+.detail.dragging{transition:none !important;}
+.detail-hd{display:flex;align-items:center;gap:var(--sp-2);padding:calc(6px + env(safe-area-inset-top)) var(--sp-4) var(--sp-3);
+  background:var(--card);border-bottom:1px solid var(--line);position:relative;z-index:2;}
+.detail-hd .back{position:relative;display:inline-flex;align-items:center;gap:2px;border:0;background:transparent;
+  color:var(--accent-text);font-size:var(--fs-headline);font-weight:600;font-family:var(--font);
+  min-height:44px;padding:0 var(--sp-2) 0 0;cursor:pointer;}
+.detail-hd .back::after{content:"";position:absolute;left:-6px;top:50%;width:44px;height:44px;transform:translateY(-50%);}
+.detail-hd .dt{flex:1;min-width:0;font-size:var(--fs-headline);font-weight:600;text-align:center;padding-right:56px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.detail-bd{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--sp-4) var(--sp-4) calc(var(--sp-8) + env(safe-area-inset-bottom));}
+/* 落点预览：拖动超过完成阈值时，将要露出的底层给出提示 */
+.detail-scrim{position:fixed;inset:0;z-index:77;background:var(--scrim);opacity:0;visibility:hidden;
+  transition:opacity var(--dur-base) ease, visibility 0s linear var(--dur-base);}
+.detail-scrim.show{opacity:1;visibility:visible;transition:opacity var(--dur-base) ease;}
+.detail-scrim.dragging{transition:none !important;}
+.preview-hint{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);
+  z-index:80;background:var(--toast-bg);color:var(--toast-ink);font-size:var(--fs-footnote);font-weight:500;
+  padding:6px 12px;border-radius:var(--r-pill);opacity:0;transition:opacity var(--dur-fast) ease;pointer-events:none;}
+.preview-hint.show{opacity:1;}
+
+/* 训练节奏条：与动作循环同步，替代难以实现的逐关节高亮 */
+.eq-tempo{display:flex;align-items:center;gap:var(--sp-2);margin:0 0 var(--sp-3);}
+.eq-tempo .tk{flex:1;height:4px;background:var(--track);border-radius:2px;overflow:hidden;}
+.eq-tempo .tk > i{display:block;height:100%;width:0;background:var(--copper);border-radius:2px;}
+.eq-stage.animated ~ .eq-tempo .tk > i{animation:eqTempo 2.6s var(--ease-soft) infinite;}
+@keyframes eqTempo{0%{width:0}45%{width:100%}55%{width:100%}100%{width:0}}
+.eq-tempo .lb{font-size:var(--fs-footnote);color:var(--sub);flex:0 0 auto;}
+
+/* 小屏兜底：环形与主数字同步缩放，避免 4 位数溢出 */
+.ring svg{width:100%;height:100%;}
+@media (max-width:380px){
+  .ring{width:106px;height:106px;flex:0 0 106px;}
+  .ring-info .f-display{font-size:36px;}
+  .act-row .btn{font-size:var(--fs-subhead);padding:0 var(--sp-2);}
+}
+@media (max-width:340px){
+  .ring{width:94px;height:94px;flex:0 0 94px;}
+  .ring-info .f-display{font-size:31px;}
+}
+.macro .mv{font-size:var(--fs-number);font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px;}
+.bar{height:6px;background:var(--track);border-radius:3px;margin-top:var(--sp-2);overflow:hidden;}
+.bar > i{display:block;height:100%;background:var(--accent);border-radius:3px;width:0;transition:width var(--dur-num) var(--ease-out);}
+.bar > i.over{background:var(--warning);}
+.suggest{background:var(--accent-tint);border-radius:var(--r-sm);padding:var(--sp-3);margin-top:var(--sp-3);}
+.suggest .t{font-size:var(--fs-footnote);color:var(--sub);margin-bottom:var(--sp-1);}
+.suggest .li{font-size:var(--fs-subhead);font-weight:600;padding:3px 0;font-variant-numeric:tabular-nums;}
+.mealcard{padding:var(--sp-4);}
+.mealhd{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-2);}
+.mealhd .nm{font-weight:600;font-size:var(--fs-headline);}
+.mealhd .vv{font-size:var(--fs-subhead);font-weight:700;color:var(--sub);font-variant-numeric:tabular-nums;}
+.mealhd .vv.over{color:var(--warning-text);}
+.item{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-3) 0;min-height:44px;border-bottom:1px solid var(--line);border-radius:var(--r-xs);}
 .item:last-child{border-bottom:0;}
 .item .in{flex:1;min-width:0;}
-.item .nm{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.item .ds{font-size:var(--fs-caption);color:var(--sub);font-variant-numeric:tabular-nums;}
+.item .nm{font-size:var(--fs-headline);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.item .ds{font-size:var(--fs-footnote);color:var(--sub);font-variant-numeric:tabular-nums;}
 .item .kc{font-size:var(--fs-number);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.del{width:32px;height:32px;flex:0 0 32px;border:0;background:transparent;color:var(--disabled);font-size:20px;line-height:1;cursor:pointer;border-radius:8px;}
-.addbtn{width:100%;min-height:44px;margin-top:8px;border:1px dashed var(--sage-l);background:var(--card);color:var(--sage);border-radius:var(--r-sm);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;transition:transform var(--dur-press) ease,background var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
-.addbtn:active{transform:scale(.98);background:var(--sage-bg);}
-.empty{text-align:center;color:var(--sub);font-size:14px;padding:14px 8px;}
-.footnote{font-size:var(--fs-caption);color:var(--sub);text-align:center;padding:4px 8px 0;line-height:1.7;}
+.del{position:relative;width:32px;height:32px;flex:0 0 32px;border:0;background:transparent;color:var(--danger-text);font-size:18px;line-height:1;cursor:pointer;border-radius:var(--r-xs);}
+.addbtn{width:100%;min-height:44px;margin-top:var(--sp-2);border:1px dashed var(--sage-l);background:var(--card);color:var(--accent-text);border-radius:var(--r-sm);font-size:var(--fs-subhead);font-weight:600;font-family:var(--font);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.empty{text-align:center;color:var(--sub);font-size:var(--fs-subhead);padding:var(--sp-4) var(--sp-2);line-height:1.6;}
+.footnote{font-size:var(--fs-footnote);color:var(--sub);text-align:center;padding:var(--sp-1) var(--sp-2) 0;line-height:1.6;}
 
 /* ============================================================
    5. 结果 / 提示
    ============================================================ */
-.res{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.res .cell{background:var(--sage-bg);border-radius:var(--r-sm);padding:8px 10px;}
-.res .cell .l{font-size:11px;color:var(--sub);}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2);}
+.res .cell{background:var(--accent-tint);border-radius:var(--r-sm);padding:var(--sp-2) 10px;}
+.res .cell .l{font-size:12px;color:var(--sub);}
 .res .cell .v{font-size:var(--fs-number);font-weight:700;font-variant-numeric:tabular-nums;}
-.hero{background:var(--sage);color:#fff;border-radius:var(--r);padding:14px;margin-bottom:12px;}
-.hero .l{font-size:var(--fs-caption);opacity:.85;}
-.hero .v{font-size:var(--fs-display);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;}
-.hero .v small{font-size:14px;font-weight:600;opacity:.85;}
-.notice{border-radius:var(--r-sm);padding:10px 12px;font-size:13px;line-height:1.55;margin-bottom:10px;}
-.notice.warn{background:var(--warn-bg);color:var(--warn);}
-.notice.info{background:var(--sage-bg);color:var(--sage);}
-.disclaimer{font-size:var(--fs-caption);color:var(--sub);background:var(--fill);border-radius:var(--r-sm);padding:10px 12px;line-height:1.6;}
+.hero{background:var(--accent);color:#fff;border-radius:var(--r-md);padding:var(--sp-5);margin-bottom:var(--sp-3);}
+.hero .l{font-size:var(--fs-footnote);opacity:.88;}
+.hero .v{font-size:var(--fs-display);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.05;letter-spacing:-.5px;}
+.hero .v small{font-size:var(--fs-subhead);font-weight:500;opacity:.88;margin-left:2px;}
+.notice{border-radius:var(--r-sm);padding:var(--sp-3);font-size:var(--fs-footnote);line-height:1.6;margin-bottom:var(--sp-2);}
+.notice.warn{background:var(--warn-bg);color:var(--warning-text);}
+.notice.info{background:var(--accent-tint);color:var(--accent-text);}
+.disclaimer{font-size:var(--fs-footnote);color:var(--sub);background:var(--fill);border-radius:var(--r-sm);padding:var(--sp-3);line-height:1.6;}
 
 /* ============================================================
    6. 食材库
    ============================================================ */
-.foodrow{display:flex;align-items:flex-start;gap:8px;padding:11px 0;border-bottom:1px solid var(--line);}
+.foodrow{display:flex;align-items:flex-start;gap:var(--sp-2);padding:var(--sp-3) 0;border-bottom:1px solid var(--line);}
 .foodrow:last-child{border-bottom:0;}
 .foodrow .fi{flex:1;min-width:0;}
-.foodrow .fn{font-size:15px;font-weight:600;}
-.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:1px;}
-.tag.b{background:var(--sage-bg);color:var(--sage);}
+.foodrow .fn{font-size:var(--fs-headline);font-weight:600;}
+.tag{display:inline-block;font-size:12px;padding:2px 7px;border-radius:var(--r-pill);margin-left:6px;vertical-align:1px;}
+.tag.b{background:var(--accent-tint);color:var(--accent-text);}
 .tag.m{background:var(--fill);color:var(--sub);}
-.foodrow .fd{font-size:var(--fs-caption);color:var(--sub);margin-top:2px;font-variant-numeric:tabular-nums;}
-.foodrow .fa{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
-.pickrow{display:flex;align-items:center;gap:8px;padding:12px;border:1px solid var(--line);border-radius:var(--r-sm);margin-bottom:8px;background:var(--card);}
-.pickrow[aria-pressed=true]{border-color:var(--sage);background:var(--sage-bg);}
-.pickrow .pn{font-size:15px;font-weight:600;}
-.pickrow .pd{font-size:var(--fs-caption);color:var(--sub);font-variant-numeric:tabular-nums;}
-.qtybox{border:1px solid var(--line);}
-.backlink{display:inline-flex;align-items:center;border:0;background:transparent;color:var(--blue);font-size:14px;font-weight:600;min-height:36px;padding:0 2px;margin:0 0 6px;cursor:pointer;font-family:var(--font);-webkit-tap-highlight-color:transparent;}
-.backlink:active{opacity:.6;}
-.qtybox .q-name{font-size:20px;font-weight:700;letter-spacing:-.3px;}
-.qtybox .q-sub{font-size:13px;color:var(--sub);margin-top:2px;font-variant-numeric:tabular-nums;}
-.qtybox .q-lbl{font-size:var(--fs-caption);color:var(--sub);margin:14px 0 6px;}
+.foodrow .fd{font-size:var(--fs-footnote);color:var(--sub);margin-top:2px;font-variant-numeric:tabular-nums;}
+.foodrow .fa{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-2);}
+.pickrow{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-3);border:1px solid var(--separator);border-radius:var(--r-sm);margin-bottom:var(--sp-2);background:var(--card);min-height:56px;}
+.pickrow[aria-pressed=true]{border-color:var(--accent);background:var(--accent-tint);}
+.pickrow .pn{font-size:var(--fs-headline);font-weight:600;}
+.pickrow .pd{font-size:var(--fs-footnote);color:var(--sub);font-variant-numeric:tabular-nums;}
+.qtybox{border:1px solid var(--separator);}
+.backlink{display:inline-flex;align-items:center;border:0;background:transparent;color:var(--accent-text);font-size:var(--fs-subhead);font-weight:600;min-height:44px;padding:0 2px;margin:0 0 var(--sp-2);cursor:pointer;font-family:var(--font);-webkit-tap-highlight-color:transparent;}
+.qtybox .q-name{font-size:var(--fs-title);font-weight:600;letter-spacing:-.3px;}
+.qtybox .q-sub{font-size:var(--fs-footnote);color:var(--sub);margin-top:2px;font-variant-numeric:tabular-nums;}
+.qtybox .q-lbl{font-size:var(--fs-footnote);color:var(--sub);margin:var(--sp-4) 0 var(--sp-2);}
 .qtybox .chips{flex-wrap:wrap;overflow:visible;}
-.qtybox .q-qtyrow{display:flex;align-items:center;gap:10px;}
-.qtybox .q-qtyrow input{flex:1;min-width:0;min-height:52px;font-size:24px;font-weight:700;text-align:center;border-radius:14px;}
-.qtybox .q-ulabel{flex:0 0 auto;font-size:15px;font-weight:600;color:var(--sub);background:var(--fill);border-radius:10px;padding:0 14px;height:40px;display:inline-flex;align-items:center;}
+.qtybox .q-qtyrow{display:flex;align-items:center;gap:var(--sp-3);}
+.qtybox .q-qtyrow input{flex:1;min-width:0;min-height:56px;font-size:26px;font-weight:700;text-align:center;border-radius:var(--r-sm);}
+.qtybox .q-ulabel{flex:0 0 auto;font-size:var(--fs-subhead);font-weight:600;color:var(--sub);background:var(--fill);border-radius:var(--r-xs);padding:0 14px;height:44px;display:inline-flex;align-items:center;}
 
 /* ============================================================
    7. 记录页图表
    ============================================================ */
 .chartbox{width:100%;overflow:hidden;}
 .chartbox svg{width:100%;height:auto;display:block;}
-.legend{display:flex;gap:14px;font-size:var(--fs-caption);color:var(--sub);margin-top:6px;}
+.legend{display:flex;gap:var(--sp-4);font-size:var(--fs-footnote);color:var(--sub);margin-top:var(--sp-2);}
 .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:2px;margin-right:4px;}
-.dayrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid var(--line);min-height:44px;}
+.dayrow{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);padding:var(--sp-3) 0;border-bottom:1px solid var(--line);min-height:56px;}
 .dayrow:last-child{border-bottom:0;}
 .dayrow:active{background:var(--fill);border-radius:var(--r-sm);}
-.dayrow .dl{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
-.dayrow .dr{font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums;}
-.monthhd{font-size:var(--fs-caption);color:var(--sub);padding:10px 0 2px;font-weight:600;}
+.dayrow .dl{font-size:var(--fs-headline);font-weight:600;font-variant-numeric:tabular-nums;}
+.dayrow .dr{font-size:var(--fs-footnote);color:var(--sub);font-variant-numeric:tabular-nums;}
+.monthhd{font-size:var(--fs-footnote);color:var(--sub);padding:var(--sp-3) 0 2px;font-weight:600;}
 
 /* ============================================================
    7.5 训练页（器材大卡片 / 动画区 / 重量与组数）
    ============================================================ */
-.eq-stage{position:relative;height:172px;background:var(--fill);border-radius:var(--r-sm);
-  margin:2px 0 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.eq-stage{position:relative;height:176px;background:var(--fill-2);border-radius:var(--r-sm);
+  margin:2px 0 var(--sp-3);overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .eq-stage svg{width:100%;max-width:320px;height:100%;display:block;}
 .eq-stage .pose-b{opacity:0;}
 .eq-stage.animated .pose-a{animation:eqLoop 2.6s var(--ease-soft) infinite;}
@@ -258,37 +382,35 @@ select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(
 @keyframes eqLoop{0%{opacity:0}8%{opacity:1}50%{opacity:1}58%{opacity:0}100%{opacity:0}}
 .eq-eqline{stroke:var(--sub);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.55;}
 .eq-floor{stroke:var(--line);stroke-width:2;}
-.eq-man{stroke:var(--blue);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eq-man{stroke:var(--accent);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;}
 .eq-man .hd{fill:none;}
 .eq-man .dumb{stroke-width:5;}
-.eq-band{stroke:var(--warn);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-dasharray:4 3;}
-.eq-load{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 4px;}
-.step-btn{width:44px;height:44px;flex:0 0 44px;border-radius:999px;border:1px solid var(--line);
-  background:var(--card);color:var(--blue);font-size:22px;font-weight:700;line-height:1;cursor:pointer;
-  font-family:var(--font);display:inline-flex;align-items:center;justify-content:center;
-  transition:transform var(--dur-press) ease,filter var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
-.step-btn:active{transform:scale(.94);filter:brightness(.95);}
-.load-num{min-width:118px;text-align:center;}
-.load-num .v{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;}
-.load-num .u{font-size:var(--fs-caption);color:var(--sub);margin-top:1px;}
-.set-row{display:flex;align-items:center;gap:10px;min-height:44px;padding:9px 0;border-bottom:1px solid var(--line);}
+.eq-band{stroke:var(--copper);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-dasharray:4 3;}
+.eq-load{display:flex;align-items:center;justify-content:center;gap:var(--sp-4);margin:var(--sp-2) 0 var(--sp-1);}
+.step-btn{width:44px;height:44px;flex:0 0 44px;border-radius:var(--r-pill);border:1px solid var(--separator);
+  background:var(--card);color:var(--accent-text);font-size:22px;font-weight:700;line-height:1;cursor:pointer;
+  font-family:var(--font);display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.load-num{min-width:126px;text-align:center;}
+.load-num .v{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;}
+.load-num .u{font-size:var(--fs-footnote);color:var(--sub);margin-top:2px;}
+.set-row{display:flex;align-items:center;gap:var(--sp-3);min-height:56px;padding:var(--sp-3) 0;border-bottom:1px solid var(--line);border-radius:var(--r-xs);}
 .set-row:last-of-type{border-bottom:0;}
-.set-row.done{opacity:.5;}
+.set-row.done{background:var(--accent-tint);}
 .set-row.done .sn{color:var(--ok);font-weight:700;}
-.set-row .sn{width:46px;font-size:14px;font-weight:600;color:var(--sub);flex:0 0 auto;}
-.set-row .sx{font-size:15px;font-variant-numeric:tabular-nums;flex:1;min-width:0;}
-.set-row .repbtn{width:32px;height:32px;flex:0 0 32px;border-radius:999px;border:1px solid var(--line);
-  background:var(--card);color:var(--blue);font-size:17px;font-weight:700;cursor:pointer;font-family:var(--font);}
-.set-row .repbtn:active{transform:scale(.92);}
+.set-row.done .sx{color:var(--sub);}
+.set-row .sn{width:46px;font-size:var(--fs-subhead);font-weight:600;color:var(--sub);flex:0 0 auto;}
+.set-row .sx{font-size:var(--fs-subhead);font-variant-numeric:tabular-nums;flex:1;min-width:0;}
+.set-row .repbtn{position:relative;width:32px;height:32px;flex:0 0 32px;border-radius:var(--r-pill);border:1px solid var(--separator);
+  background:var(--card);color:var(--accent-text);font-size:17px;font-weight:700;cursor:pointer;font-family:var(--font);}
 .set-row .repnum{min-width:34px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;}
-.tut-toggle{width:100%;min-height:40px;border:0;background:transparent;color:var(--blue);font-size:14px;font-weight:600;
-  font-family:var(--font);cursor:pointer;padding:6px 0;}
-.tut-body{font-size:14px;line-height:1.65;}
-.tut-body h4{font-size:13px;color:var(--sub);margin:10px 0 3px;font-weight:600;}
+.tut-toggle{width:100%;min-height:44px;border:0;background:transparent;color:var(--accent-text);font-size:var(--fs-subhead);font-weight:600;
+  font-family:var(--font);cursor:pointer;padding:var(--sp-2) 0;}
+.tut-body{font-size:var(--fs-subhead);line-height:1.7;}
+.tut-body h4{font-size:var(--fs-footnote);color:var(--sub);margin:var(--sp-3) 0 3px;font-weight:600;}
 .tut-body h4:first-child{margin-top:2px;}
 .tut-body li{margin:2px 0;}
-.eq-addset{width:100%;min-height:40px;margin-top:6px;border:1px dashed var(--sage-l);background:var(--card);
-  color:var(--sage);border-radius:var(--r-sm);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;}
+.eq-addset{width:100%;min-height:44px;margin-top:var(--sp-2);border:1px dashed var(--sage-l);background:var(--card);
+  color:var(--accent-text);border-radius:var(--r-sm);font-size:var(--fs-subhead);font-weight:600;font-family:var(--font);cursor:pointer;}
 
 /* ============================================================
    8. 底部 tab（安全区）
@@ -303,52 +425,59 @@ select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(
 .tabbar > button{
   flex:1;min-height:56px;border:0;background:transparent;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  font-family:var(--font);font-size:10px;color:var(--sub);padding:6px 0 0;
-  transition:color var(--dur-press) ease;
+  font-family:var(--font);font-size:11px;color:var(--sub);padding:var(--sp-2) 0 0;
+  transition:color var(--dur-fast) var(--ease-out);
 }
-.tabbar > button:active{opacity:.6;}
-.tabbar > button[aria-current=true]{color:var(--blue);font-weight:600;}
+.tabbar > button[aria-current=true]{color:var(--accent-text);font-weight:600;}
 .tabbar > button svg{width:24px;height:24px;display:block;}
 
 /* ============================================================
-   9. 横幅 / 弹层 / 遮罩
+   9. 横幅 / 弹层 / 遮罩（三型统一：Sheet 28 · Alert 16 · ActionSheet 16）
    ============================================================ */
 .banner{position:fixed;top:0;left:0;right:0;z-index:90;max-width:480px;margin:0 auto;
-  background:var(--warn-bg);color:var(--warn);border-bottom:1px solid var(--warn-line);
-  padding:calc(8px + env(safe-area-inset-top)) 12px 8px;font-size:13px;font-weight:600;
-  display:none;align-items:center;gap:10px;justify-content:space-between;}
+  background:var(--warn-bg);color:var(--warning-text);border-bottom:1px solid var(--warn-line);
+  padding:calc(8px + env(safe-area-inset-top)) var(--sp-3) var(--sp-2);font-size:var(--fs-footnote);font-weight:600;
+  display:none;align-items:center;gap:var(--sp-3);justify-content:space-between;}
 .banner.show{display:flex;}
-.banner button{background:var(--warn);color:#fff;border:0;border-radius:8px;min-height:32px;padding:0 12px;font-size:13px;font-family:var(--font);font-weight:600;cursor:pointer;}
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:70;opacity:0;visibility:hidden;
-  transition:opacity .28s ease, visibility 0s linear .28s;}
-.scrim.show{opacity:1;visibility:visible;transition:opacity .28s ease;}
-.sheet{position:fixed;left:50%;top:50%;z-index:80;width:calc(100vw - 28px);max-width:448px;
-  background:var(--card);border-radius:22px;display:flex;flex-direction:column;
-  max-height:min(86vh, 780px);box-shadow:0 24px 70px rgba(0,0,0,.3);
+.banner button{background:var(--warning);color:#fff;border:0;border-radius:var(--r-xs);min-height:44px;padding:0 var(--sp-3);font-size:var(--fs-footnote);font-family:var(--font);font-weight:600;cursor:pointer;}
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:70;opacity:0;visibility:hidden;
+  transition:opacity var(--dur-base) ease, visibility 0s linear var(--dur-base);}
+.scrim.show{opacity:1;visibility:visible;transition:opacity var(--dur-base) ease;}
+.sheet{position:fixed;left:50%;top:50%;z-index:80;width:calc(100vw - 32px);max-width:448px;
+  background:var(--card);border-radius:var(--r-lg);display:flex;flex-direction:column;
+  max-height:min(86vh, 780px);box-shadow:var(--elev-3);
   transform:translate(-50%,-46%) scale(.94);opacity:0;visibility:hidden;
-  transition:transform var(--dur-sheet) var(--ease-spring), opacity .2s ease, visibility 0s linear var(--dur-sheet);}
+  transition:transform var(--dur-base) var(--ease-spring), opacity .2s ease, visibility 0s linear var(--dur-base);}
 .sheet.show{transform:translate(-50%,-50%) scale(1);opacity:1;visibility:visible;
-  transition:transform var(--dur-sheet) var(--ease-spring), opacity .2s ease;}
+  transition:transform var(--dur-base) var(--ease-spring), opacity .2s ease;}
 .grab{display:none;}
-.sheet-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--line);}
-.sheet-hd .t{font-size:17px;font-weight:700;letter-spacing:-.2px;}
-.sheet-hd .x{flex:0 0 30px;width:30px;height:30px;min-height:30px;padding:0;border:0;border-radius:999px;background:var(--fill);color:var(--sub);font-size:14px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform var(--dur-press) ease,opacity var(--dur-press) ease;-webkit-tap-highlight-color:transparent;}
-.sheet-hd .x:active{transform:scale(.9);opacity:.7;}
-.sheet-bd{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px calc(18px + env(safe-area-inset-bottom));}
-.modal{position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.4);opacity:0;transition:opacity .2s ease;}
+.sheet-hd{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-4) var(--sp-4) var(--sp-3);border-bottom:1px solid var(--line);}
+.sheet-hd .t{font-size:var(--fs-headline);font-weight:600;letter-spacing:-.2px;}
+.sheet-hd .x{position:relative;flex:0 0 32px;width:32px;height:32px;min-height:32px;padding:0;border:0;border-radius:var(--r-pill);background:var(--fill);color:var(--sub);font-size:15px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.sheet-bd{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--sp-4) var(--sp-4) calc(var(--sp-5) + env(safe-area-inset-bottom));}
+.modal{position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center;padding:var(--sp-5);background:var(--scrim);opacity:0;transition:opacity .2s ease;}
 .modal.show{display:flex;opacity:1;}
-.modal .box{background:var(--modal-bg);border-radius:14px;padding:18px;max-width:400px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.25);}
-.modal.show .box{animation:modalIn var(--dur-sheet) var(--ease-spring);}
-@keyframes modalIn{from{transform:scale(.92);opacity:0;}to{transform:scale(1);opacity:1;}}
-.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(8px) scale(.96);bottom:96px;z-index:100;opacity:0;
-  background:var(--toast-bg);color:var(--toast-ink);font-size:14px;padding:10px 16px;border-radius:999px;display:none;font-weight:500;}
-.toast.show{display:block;opacity:1;transform:translateX(-50%) translateY(0) scale(1);animation:toastIn .28s var(--ease-soft);}
-@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(8px) scale(.96);}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}}
+.modal .box{background:var(--modal-bg);border-radius:var(--r-md);padding:var(--sp-5);max-width:400px;width:100%;box-shadow:var(--elev-2);}
+.modal.show .box{animation:modalIn var(--dur-base) var(--ease-spring);}
+@keyframes modalIn{from{transform:scale(.94);opacity:0;}to{transform:scale(1);opacity:1;}}
+.toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));z-index:100;
+  display:flex;align-items:center;gap:var(--sp-3);max-width:calc(100vw - 32px);
+  background:var(--toast-bg);color:var(--toast-ink);font-size:var(--fs-subhead);font-weight:500;
+  padding:var(--sp-3) var(--sp-4);border-radius:var(--r-sm);box-shadow:var(--elev-2);
+  opacity:0;visibility:hidden;transform:translate(-50%,10px) scale(.97);
+  transition:opacity .18s ease, transform var(--dur-base) var(--ease-spring), visibility 0s linear .18s;}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);
+  transition:opacity .18s ease, transform var(--dur-base) var(--ease-spring);}
+.toast .t-msg{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.toast .t-act{flex:0 0 auto;border:0;background:transparent;color:var(--copper-200);font-size:var(--fs-subhead);font-weight:600;
+  font-family:var(--font);cursor:pointer;min-height:44px;padding:0 var(--sp-1);margin:-10px -4px -10px 0;}
+:root[data-theme="dark"] .toast .t-act{color:var(--copper);}
 .hidden{display:none !important;}
 
-/* 尊重「减弱动态效果」系统偏好 */
+/* 尊重「减弱动态效果」：去掉位移与补间，但保留必要的颜色/透明度反馈 */
 @media (prefers-reduced-motion: reduce){
-  *{transition-duration:.001ms !important;animation-duration:.001ms !important;animation-iteration-count:1 !important;}
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:0ms !important;}
+  .btn,.chip,.mini,.seg-thumb,.toast,.banner{transition-duration:var(--dur-fast) !important;}
 }
 </style>
 </head>
@@ -397,7 +526,17 @@ select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(
   <div class="box" id="modalBox" data-page-node-id="6BNK0FbMPigSKZx2rGpS27"></div>
 </div>
 
-<div class="toast" id="toast" data-page-node-id="GXDyHstbTCd8sbxUDG1sin"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><span class="t-msg" id="toastMsg"></span><button type="button" class="t-act hidden" id="toastAct" data-act="undo">撤销</button></div>
+
+<div class="detail-scrim" id="detailScrim"></div>
+<div class="preview-hint" id="previewHint">松手返回</div>
+<section class="detail" id="detail" role="dialog" aria-modal="true" aria-label="详情页">
+  <div class="detail-hd">
+    <button type="button" class="back" data-act="detailBack" aria-label="返回">‹ 返回</button>
+    <div class="dt" id="detailTitle"></div>
+  </div>
+  <div class="detail-bd" id="detailBody"></div>
+</section>
 
 <input type="file" id="fileInput" accept=".json,application/json" class="hidden" data-page-node-id="fM24aDmDIqss5iyzTtY8OJ">
 
@@ -490,8 +629,233 @@ function shiftDate(ds, n){ var d = new Date(ds + "T00:00:00"); d.setDate(d.getDa
   return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
 function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
 function uid(){ return "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
-function toast(msg){ var t = $("toast"); t.textContent = msg; t.classList.add("show");
-  clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("show"); }, 1600); }
+/* Toast：可选操作按钮（撤销）。有操作时展示 4.2s，无操作 1.6s。 */
+function toast(msg, actionLabel, actionFn){
+  var t = $("toast"), m = $("toastMsg"), a = $("toastAct");
+  if (m) m.textContent = msg; else t.textContent = msg;
+  if (actionLabel && actionFn){
+    if (a){ a.textContent = actionLabel; a.classList.remove("hidden"); }
+    toast._fn = actionFn;
+  } else {
+    if (a) a.classList.add("hidden");
+    toast._fn = null;
+  }
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){
+    t.classList.remove("show");
+    if (a) a.classList.add("hidden");
+    toast._fn = null;
+  }, actionFn ? 4200 : 1600);
+}
+
+/* ============================================================================
+ * 文字局部过渡：只让「数字」从旧值滚到新值，同一行里未变的文字一律不动
+ * 用法：模板里给数字元素加 data-numkey / data-numval，渲染后调用 tweenNums(root)
+ * ======================================================================== */
+var numCache = {};
+function prefersReducedMotion(){
+  try { return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+  catch (e) { return false; }
+}
+function tweenNums(root){
+  var list = root.querySelectorAll("[data-numkey]");
+  for (var i = 0; i < list.length; i++){
+    (function(node){
+      var key = node.getAttribute("data-numkey");
+      var raw = node.getAttribute("data-numval");
+      var to = parseFloat(raw);
+      var from = numCache[key];
+      numCache[key] = to;
+      var dec = String(raw).indexOf(".") >= 0 ? 1 : 0;
+      if (isNaN(to)) return;
+      if (isNaN(from) || from == null || Math.abs(from - to) < 0.05 || prefersReducedMotion()){
+        node.textContent = fmtNum(to, dec); return;
+      }
+      var t0 = null, dur = 320;
+      node.textContent = fmtNum(from, dec);
+      function step(ts){
+        if (t0 == null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var e = 1 - Math.pow(1 - p, 3);
+        node.textContent = fmtNum(from + (to - from) * e, dec);
+        if (p < 1) requestAnimationFrame(step); else node.textContent = fmtNum(to, dec);
+      }
+      requestAnimationFrame(step);
+    })(list[i]);
+  }
+}
+function fmtNum(v, dec){ return dec ? (Math.round(v * 10) / 10).toFixed(1) : String(Math.round(v)); }
+function numAttr(key, val){
+  return ' data-numkey="' + key + '" data-numval="' + val + '"';
+}
+
+/* ============================================================================
+ * 按压状态机（按钮滑出取消）：按下 ≤120ms 给反馈 → 移出范围按压感衰减 →
+ * 按钮外松手不触发动作。iOS 按钮的标准行为，原实现只有 CSS :active，做不到。
+ * ======================================================================== */
+(function(){
+  var held = null;
+  var SEL = ".btn,.chip,.mini,.addbtn,.step-btn,.repbtn,.backlink,.tut-toggle,.tabbar > button,.seg > button,.del,.dayrow,.pickrow,.banner button";
+  function near(node, x, y){
+    var r = node.getBoundingClientRect();
+    return x >= r.left - 8 && x <= r.right + 8 && y >= r.top - 8 && y <= r.bottom + 8;
+  }
+  function release(){
+    if (!held) return;
+    held.classList.remove("pressed"); held.classList.remove("pressed-out"); held = null;
+  }
+  document.addEventListener("pointerdown", function(e){
+    if (e.button != null && e.button !== 0) return;
+    var t = e.target && e.target.closest ? e.target.closest(SEL) : null;
+    if (!t || t.disabled) return;
+    held = t; t.classList.add("pressed"); t.classList.remove("pressed-out");
+  }, true);
+  document.addEventListener("pointermove", function(e){
+    if (!held) return;
+    if (near(held, e.clientX, e.clientY)) held.classList.remove("pressed-out");
+    else held.classList.add("pressed-out");
+  }, {passive:true});
+  document.addEventListener("pointerup", release);
+  document.addEventListener("pointercancel", release);
+})();
+
+/* ============================================================================
+ * 详情层级 + 跟手返回（一次覆盖五类手势规范）
+ *   方向锁定：起手 dead zone 8pt，|dx| > |dy| × 1.5 才锁横向，否则交还纵向滚动
+ *   跟手位移：拖动期间由 rAF 直写 transform，不用 transition（可被随时接管）
+ *   落点预览：距离 ≥32% 屏宽 或 速度 ≥0.5pt/ms 且位移 ≥60pt → 提前提示"松手返回"
+ *   边界阻尼：向右越界（超出关闭位）走 rubber-band，越拉位移越小
+ *   动画接管：拖动开始时移除 transition，从当前位置续接，绝不回跳
+ * ======================================================================== */
+var GD = { dead:8, ratio:1.5, edge:24, dist:0.32, vel:0.5, dampD:0.55, dampC:0.55 };
+var detailSt = { open:false, armed:null, axis:null, dx:0, v:0, lastX:0, lastT:0 };
+
+function detailRefs(){
+  return { el:$("detail"), scrim:$("detailScrim"), hint:$("previewHint") };
+}
+function openDetail(title, html){
+  var r = detailRefs(); if (!r.el) return;
+  $("detailTitle").textContent = title;
+  $("detailBody").innerHTML = html;
+  detailSt.open = true;
+  r.el.classList.add("show");
+  r.scrim.classList.add("show");
+  document.body.style.overflow = "hidden";
+  document.body.classList.add("detail-open");
+}
+function closeDetail(){
+  var r = detailRefs(); if (!r.el) return;
+  detailSt.open = false;
+  r.el.classList.remove("dragging", "show");
+  r.el.style.transform = "";
+  r.scrim.classList.remove("dragging", "show");
+  r.scrim.style.opacity = "";
+  r.hint.classList.remove("show");
+  document.body.style.overflow = "";
+  document.body.classList.remove("detail-open");
+}
+(function(){
+  var drag = null;
+  function W(){ var r = detailRefs(); return r.el ? r.el.getBoundingClientRect().width : 375; }
+  function rubber(x){
+    var max = W() * GD.dampD;
+    return (1 - 1 / (Math.abs(x) * GD.dampC / max + 1)) * max * (x < 0 ? -1 : 1);
+  }
+  function willClose(moved, v){
+    return Math.abs(moved) >= W() * GD.dist || (v <= -GD.vel && Math.abs(moved) >= 60);
+  }
+  document.addEventListener("pointerdown", function(e){
+    if (!detailSt.open) return;
+    var r = detailRefs(); if (!r.el) return;
+    if (e.clientX - r.el.getBoundingClientRect().left > GD.edge) return;
+    drag = { x0:e.clientX, y0:e.clientY };
+    detailSt.armed = true; detailSt.axis = null; detailSt.dx = 0; detailSt.v = 0;
+    detailSt.lastX = e.clientX; detailSt.lastT = performance.now();
+  }, true);
+  document.addEventListener("pointermove", function(e){
+    if (!drag || !detailSt.open) return;
+    var r = detailRefs(); if (!r.el) return;
+    var dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+    var adx = Math.abs(dx), ady = Math.abs(dy);
+    if (!detailSt.axis){
+      if (adx < GD.dead && ady < GD.dead) return;
+      if (adx > ady * GD.ratio) detailSt.axis = "x";
+      else if (ady > adx * GD.ratio) { drag = null; detailSt.armed = null; return; }
+      else return;
+      r.el.classList.add("dragging"); r.scrim.classList.add("dragging");
+    }
+    if (detailSt.axis !== "x") return;
+    var now = performance.now(), dt = Math.max(1, now - detailSt.lastT);
+    detailSt.v = (e.clientX - detailSt.lastX) / dt;
+    detailSt.lastX = e.clientX; detailSt.lastT = now;
+    var move = dx > 0 ? rubber(dx) : dx;
+    detailSt.dx = move;
+    r.el.style.transform = "translateX(" + move.toFixed(1) + "px)";
+    r.scrim.style.opacity = String(Math.max(0, Math.min(1, 1 - Math.abs(move) / W())));
+    r.hint.classList.toggle("show", willClose(move, detailSt.v));
+  }, {passive:true});
+  function finish(){
+    if (!drag || detailSt.axis !== "x" || !detailSt.open){ drag = null; return; }
+    var r = detailRefs();
+    var moved = detailSt.dx, v = detailSt.v;
+    drag = null; detailSt.axis = null;
+    r.el.classList.remove("dragging"); r.scrim.classList.remove("dragging");
+    r.hint.classList.remove("show");
+    if (willClose(moved, v)) { closeDetail(); return; }
+    r.el.style.transition = "transform var(--dur-base) var(--ease-spring)";
+    r.scrim.style.transition = "opacity var(--dur-base) ease";
+    r.el.style.transform = "translateX(0)";
+    r.scrim.style.opacity = "1";
+    setTimeout(function(){
+      var rr = detailRefs();
+      if (rr.el){ rr.el.style.transition = ""; rr.el.style.transform = ""; }
+      if (rr.scrim){ rr.scrim.style.transition = ""; rr.scrim.style.opacity = ""; }
+      detailSt.dx = 0;
+    }, 320);
+  }
+  document.addEventListener("pointerup", finish);
+  document.addEventListener("pointercancel", function(){
+    var r = detailRefs();
+    drag = null; detailSt.axis = null;
+    if (r.el){ r.el.classList.remove("dragging"); if (detailSt.open) r.el.style.transform = "translateX(0)"; }
+    if (r.scrim) r.scrim.classList.remove("dragging");
+    if (r.hint) r.hint.classList.remove("show");
+  });
+})();
+
+/* 餐次详情页（详情层级的第一张内容页） */
+function renderMealDetail(ds, k){
+  var L = getDay(ds), c = compute();
+  var items = (L.meals && L.meals[k]) || [];
+  var mt = c ? c.mealTarget[k] : null, mm = c ? c.mealMacro[k] : null;
+  var sum = { k:0, p:0, cc:0, f:0 };
+  items.forEach(function(it){ sum.k += it.kcal; sum.p += it.p; sum.cc += it.c; sum.f += it.f; });
+  var h = '<div class="card">'
+    + '<div class="kv"><span>' + MEAL_NAME[k] + '目标</span><b>' + (mt == null ? "—" : mt + " kcal") + '</b></div>'
+    + '<div class="kv mt6"><span>这一餐实际</span><b>' + Math.round(sum.k) + ' kcal</b></div>'
+    + '<div class="macros mt10">'
+    + macroCell("蛋白", r1(sum.p), mm ? mm.p : 0, "var(--c-protein)")
+    + macroCell("碳水", r1(sum.cc), mm ? mm.c : 0, "var(--c-carb)")
+    + macroCell("脂肪", r1(sum.f), mm ? mm.f : 0, "var(--c-fat)")
+    + '</div></div>';
+  if (items.length){
+    h += '<div class="card"><h2>明细 · ' + items.length + ' 项</h2>';
+    items.forEach(function(it, i){
+      h += '<div class="item"><div class="in"><div class="nm">' + esc(it.name) + '</div>'
+        + '<div class="ds">' + esc(amountText(it)) + ' · 蛋' + r1(it.p) + ' 碳' + r1(it.c) + ' 脂' + r1(it.f) + '</div></div>'
+        + '<span class="kc">' + Math.round(it.kcal) + '</span>'
+        + '<button type="button" class="del" data-act="delItem" data-d="' + ds + '" data-m="' + k + '" data-i="' + i + '" aria-label="删除">×</button></div>';
+    });
+    h += '</div>';
+  } else {
+    h += '<div class="card"><div class="empty-st">'
+      + '<div class="es-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>'
+      + '<div class="es-t">这餐还是空的</div><div class="es-d">点下面的按钮记点什么</div></div></div>';
+  }
+  h += '<button type="button" class="btn block" data-act="add" data-d="' + ds + '" data-m="' + k + '">+ 添加食物</button>';
+  return h;
+}
 
 /* ============================================================================
  * 一、数据层
@@ -839,6 +1203,7 @@ var state = {
 };
 
 function setTab(t){
+  if (detailSt.open) closeDetail();
   state.tab = t;
   ["today","train","calc","foods","me"].forEach(function(k){
     var el = $("view-" + k); if (el) el.classList.toggle("active", k === t);
@@ -881,61 +1246,62 @@ function renderToday(){
      + '</div>';
 
   if (!c) {
-    h += '<div class="card"><h2>还没有目标</h2>'
-       + '<div class="empty">先填写身高体重，才能算出你的目标</div>'
-       + '<button type="button" class="btn block" data-act="tab" data-tab="calc">去填写身高体重</button></div>';
+    h += '<div class="card"><div class="empty-st">'
+       + '<div class="es-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>'
+       + '<div class="es-t">还没有目标</div>'
+       + '<div class="es-d">填好身高体重，才能算出你每天该吃多少</div>'
+       + '<div class="es-a"><button type="button" class="btn block" data-act="tab" data-tab="calc">去填写身高体重</button></div>'
+       + '</div></div>';
   } else {
     var pct = c.targetCal > 0 ? eaten.kcal / c.targetCal * 100 : 0;
     var over = pct > 100, shown = Math.min(100, pct);
-    var C = 2 * Math.PI * 52;
-    var stroke = over ? "var(--warn)" : "var(--sage)";
+    var C = 2 * Math.PI * 55;
+    var stroke = over ? "var(--warning)" : "var(--accent)";
     h += '<div class="card">'
        + '<div class="ring-wrap"><div class="ring">'
-       + '<svg width="118" height="118" viewBox="0 0 118 118">'
-       + '<circle cx="59" cy="59" r="52" stroke="var(--track)" stroke-width="12" fill="none"/>'
-       + '<circle class="ring-fg" cx="59" cy="59" r="52" stroke="' + stroke + '" stroke-width="12" fill="none" stroke-linecap="round"'
+       + '<svg width="126" height="126" viewBox="0 0 126 126">'
+       + '<circle cx="63" cy="63" r="55" stroke="var(--track)" stroke-width="12" fill="none"/>'
+       + '<circle class="ring-fg" cx="63" cy="63" r="55" stroke="' + stroke + '" stroke-width="12" fill="none" stroke-linecap="round"'
        + ' stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + C.toFixed(1) + '"'
        + ' data-to="' + (C * (1 - shown / 100)).toFixed(1) + '"/>'
        + '</svg>'
-       + '<div class="ctr"><div class="v" style="color:' + stroke + '">' + Math.round(pct) + '%</div><div class="l">已吃 / 目标</div></div>'
+       + '<div class="ctr"><div class="v" style="color:' + stroke + '"><span' + numAttr("ring.pct", Math.round(pct)) + '>' + Math.round(pct) + '</span>%</div><div class="l">已吃 / 目标</div></div>'
        + '</div><div class="ring-info">'
-       + '<div class="kv"><span>目标</span><b>' + c.targetCal + ' kcal</b></div>'
-       + '<div class="kv"><span>已吃</span><b>' + eaten.kcal + ' kcal</b></div>'
-       + '<div class="kv"><span>基础代谢</span><b>' + c.bmr + '</b></div>'
-       + '<div class="kv"><span>每日消耗</span><b>' + c.tdee + '</b></div>'
+       + '<div class="f-cap">' + (remain >= 0 ? "今日剩余" : "今日超出") + '</div>'
+       + '<div class="f-display" style="color:' + (remain >= 0 ? "var(--ok)" : "var(--warning-text)") + '"><span' + numAttr("today.remain", Math.abs(remain)) + '>' + Math.abs(remain) + '</span> <small class="u-unit">kcal</small></div>'
+       + '<div class="kv mt6"><span>已吃 / 目标</span><b><span' + numAttr("today.eaten", eaten.kcal) + '>' + eaten.kcal + '</span> / ' + c.targetCal + '</b></div>'
+       + '<div class="kv mt4"><span>基础代谢 / 每日消耗</span><b>' + c.bmr + ' / ' + c.tdee + '</b></div>'
        + '</div></div>'
        + '<div class="macros">'
-       + macroCell("蛋白", eaten.p, c.protein)
-       + macroCell("碳水", eaten.c, c.carb)
-       + macroCell("脂肪", eaten.f, c.fat)
+       + macroCell("蛋白", eaten.p, c.protein, "var(--c-protein)")
+       + macroCell("碳水", eaten.c, c.carb, "var(--c-carb)")
+       + macroCell("脂肪", eaten.f, c.fat, "var(--c-fat)")
        + '</div></div>';
 
-    /* 剩余额度 + 人话换算 */
-    h += '<div class="card">';
+    /* 焦点区下方：两个并列主操作，全在拇指可达区 */
+    h += '<div class="act-row">'
+       + '<button type="button" class="btn ghost" data-act="add" data-d="' + ds + '" data-m="' + defaultMealNow() + '">＋ 记一笔</button>'
+       + '<button type="button" class="btn" data-act="openPlanner">⚡ 配三餐</button>'
+       + '</div>'
+       + '<div class="f-cap" style="text-align:center;margin:-4px 0 12px;">当前：' + (GOAL_LABEL[c.goal] || "减脂") + ' · 强度' + (c.level || 3)
+       + '（每日 ' + c.targetCal + ' kcal · 蛋白 ' + c.protein + ' g）</div>';
+
+    /* 人话换算（剩余额度已提到焦点区，这里只保留建议） */
     if (remain >= 0) {
-      h += '<div class="f-cap">今日剩余</div>'
-         + '<div class="f-display" style="color:var(--ok);">' + remain + ' <small style="font-size:14px;font-weight:600;">kcal</small></div>';
       var sg = suggestCombos(remain);
       if (sg.length) {
-        h += '<div class="suggest"><div class="t">接下来还能这么吃</div>';
+        h += '<div class="card"><div class="suggest"><div class="t">接下来还能这么吃</div>';
         sg.forEach(function(s){ h += '<div class="li">≈ ' + esc(s.text) + '（约 ' + s.tot + ' kcal）</div>'; });
-        h += '</div>';
+        h += '</div></div>';
       } else {
-        h += '<div class="f-cap mt10">剩下的额度不多了，喝口水吧。</div>';
+        h += '<div class="card"><div class="f-cap">剩下的额度不多了，喝口水吧。</div></div>';
       }
     } else {
-      h += '<div class="f-cap">今日超出</div>'
-         + '<div class="f-display" style="color:var(--warn);">' + (-remain) + ' <small style="font-size:14px;font-weight:600;">kcal</small></div>'
-         + '<div class="f-cap mt6">超了就翻篇，明天照常记。</div>';
+      h += '<div class="card"><div class="f-cap">超了就翻篇，明天照常记。</div></div>';
     }
-    h += '</div>';
 
     c.warns.forEach(function(w){ h += '<div class="notice ' + w.type + '">' + esc(w.text) + '</div>'; });
     if (c.splitWarn) h += '<div class="notice warn">' + esc(c.splitWarn) + '</div>';
-    /* 每餐智能搭配入口 */
-    h += '<div class="card"><button type="button" class="btn block" data-act="openPlanner">⚡ 按档位帮我配三餐</button>'
-       + '<div class="f-cap mt6">当前：' + (GOAL_LABEL[c.goal] || "减脂") + ' · 强度' + (c.level || 3)
-       + '（每日 ' + c.targetCal + ' kcal · 蛋白 ' + c.protein + ' g）</div></div>';
   }
 
   /* 四组餐次 */
@@ -946,8 +1312,8 @@ function renderToday(){
     var mt = c ? c.mealTarget[k] : null;
     var isOver = mt != null && sum.kcal > mt;
     h += '<div class="card mealcard">'
-       + '<div class="mealhd"><span class="nm">' + m[1] + '</span>'
-       + '<span class="vv' + (isOver ? " over" : "") + '">' + sum.kcal
+       + '<div class="mealhd tap" data-act="openMeal" data-d="' + ds + '" data-m="' + k + '"><span class="nm">' + m[1] + '<span class="chev">›</span></span>'
+       + '<span class="vv' + (isOver ? " over" : "") + '"><span' + numAttr("meal." + k, sum.kcal) + '>' + sum.kcal + '</span>'
        + (mt != null ? " / " + mt : "") + ' kcal</span></div>';
     if (items.length === 0) {
       h += '<div class="empty">今天还没记一笔。点下面的「+ 添加食物」开始</div>';
@@ -973,6 +1339,15 @@ function renderToday(){
   h += '<div class="footnote">本工具只记热量，饮水不参与计算<br>活动量已包含日常运动，运动后目标不上浮</div>';
   v.innerHTML = h;
 
+  /* 文字局部过渡：只让数字滚到新值，同一行未变的文字（单位 / 目标）保持不动 */
+  tweenNums(v);
+
+  /* 详情页开着时同步刷新（例如在详情里加/删了食物） */
+  if (detailSt.open && state.detailKey) {
+    var dEl = $("detailBody");
+    if (dEl) dEl.innerHTML = renderMealDetail(state.detailKey.d, state.detailKey.m);
+  }
+
   /* 进度环补间：从空环过渡到目标值（尊重 prefers-reduced-motion，关闭时直接落位） */
   var ring = v.querySelector(".ring-fg");
   if (ring) requestAnimationFrame(function(){ ring.style.strokeDashoffset = ring.getAttribute("data-to"); });
@@ -983,11 +1358,14 @@ function renderToday(){
   });
 }
 
-function macroCell(label, val, tar){
+function macroCell(label, val, tar, tone){
   var pp = tar > 0 ? Math.min(100, val / tar * 100) : 0;
-  return '<div class="macro"><div class="ml">' + label + '</div>'
-       + '<div class="mv">' + r1(val) + '<span style="font-size:11px;color:var(--sub);font-weight:500;">/' + tar + '</span></div>'
-       + '<div class="bar"><i class="' + (val > tar ? "over" : "") + '" style="width:0" data-w="' + pp + '"></i></div></div>';
+  var over = val > tar;
+  var col = over ? "var(--warning)" : (tone || "var(--accent)");
+  return '<div class="macro"><div class="ml"><i class="dot" style="background:' + (tone || "var(--accent)") + '"></i>' + label + '</div>'
+       + '<div class="mv"><span' + numAttr("macro." + label, r1(val)) + '>' + r1(val) + '</span>'
+       + '<span class="u-unit" style="font-size:12px;">/' + tar + '</span></div>'
+       + '<div class="bar"><i style="width:0;background:' + col + '" data-w="' + pp + '"></i></div></div>';
 }
 
 /* 人话换算：只用用户自己的食材库倒推组合 */
@@ -1033,7 +1411,8 @@ function suggestCombos(remain){
  * ========================================================================== */
 function renderCalc(){
   var p = DB.profile, v = $("view-calc");
-  var h = '<div class="card">'
+  var h = '<div class="grouphd">第 1 步 · 身体数据</div>'
+    + '<div class="card">'
     + '<h2>身体数据</h2>'
     + '<div class="row"><div style="flex:1;"><label class="fld">性别</label>'
     + '<div class="seg"><button type="button" data-act="gender" data-v="male" aria-pressed="' + (p.gender === "male") + '">男</button>'
@@ -1054,6 +1433,7 @@ function renderCalc(){
     + '<div class="err hidden" id="cDefErr"></div></div>'
     + '</div>';
 
+  h += '<div class="grouphd">第 2 步 · 三餐比例</div>';
   h += '<div class="card"><h2>三餐比例（%）</h2>'
     + '<div class="row"><div style="flex:1;"><label class="fld">早餐</label>'
     + '<input type="number" inputmode="numeric" id="sB" value="' + p.split.breakfast + '"></div>'
@@ -1064,7 +1444,9 @@ function renderCalc(){
     + '<div class="f-cap mt6">晚餐 = 100 − 早餐 − 午餐，自动算出。加餐不计入比例。</div>'
     + '<div class="err hidden" id="splitErr"></div></div>';
 
+  h += '<div class="grouphd">第 3 步 · 你的目标</div>';
   h += '<div id="calcOut"></div>';
+  h += '<button type="button" class="btn block mt14" data-act="tab" data-tab="today">完成，去看今天吃什么</button>';
   h += '<div class="disclaimer mt14">本工具为一般性营养计算，不构成医疗建议。有基础疾病、正在服药、或未成年者请咨询医生。</div>';
   h += '<div class="footnote">数据仅保存在本机浏览器，换设备请用导出 / 导入迁移</div>';
   v.innerHTML = h;
@@ -1210,7 +1592,8 @@ function renderMe(){
   var avg7 = last7.length ? last7.reduce(function(a, b){ return a + b.w; }, 0) / last7.length : null;
   var p = DB.profile, c = compute();
 
-  /* 身体数据 */
+  /* 身体数据（归入「设置」组） */
+  h += '<div class="grouphd">设置</div>';
   h += '<div class="card"><h2>身体数据</h2><div class="res">'
      + '<div class="cell"><div class="l">性别</div><div class="v">' + (p.gender === "female" ? "女" : "男") + '</div></div>'
      + '<div class="cell"><div class="l">年龄</div><div class="v">' + (p.age == null ? "—" : p.age) + '</div></div>'
@@ -1246,10 +1629,11 @@ function renderMe(){
      + '<button type="button" class="btn ghost" style="flex:1;" data-act="export">导出备份</button>'
      + '<button type="button" class="btn ghost" style="flex:1;" data-act="importPick">导入备份</button></div>'
      + '<div class="row mt6"><button type="button" class="mini" data-act="showDisclaimer">免责声明</button>'
-     + '<button type="button" class="mini" data-act="resetAsk" style="color:var(--warn);border-color:var(--warn-line);">清空所有数据</button></div>'
+     + '<button type="button" class="mini" data-act="resetAsk" style="color:var(--danger-text);border-color:var(--danger);">清空所有数据</button></div>'
      + '<div class="f-cap mt6">数据只存在本机浏览器，换设备前先导出备份。</div></div>';
 
-  /* 体重趋势 */
+  /* 体重趋势（归入「档案」组） */
+  h += '<div class="grouphd">档案</div>';
   h += '<div class="card"><h2>体重趋势</h2>';
   if (avg7 != null) {
     h += '<div class="f-cap">近 7 日均值</div><div class="f-display">' + r1(avg7) + ' <small style="font-size:14px;font-weight:600;">kg</small></div>';
@@ -1318,9 +1702,13 @@ function chartSVG(pts){
   });
   var rawPts = pts.map(function(p, i){ return X(i).toFixed(1) + "," + Y(p.w).toFixed(1); }).join(" ");
   var maPts  = mas.map(function(v, i){ return X(i).toFixed(1) + "," + Y(v).toFixed(1); }).join(" ");
-  s += '<polyline points="' + rawPts + '" fill="none" stroke="var(--sage-l)" stroke-width="1.4" stroke-linejoin="round" opacity=".85"/>';
-  s += '<polyline points="' + maPts + '" fill="none" stroke="var(--sage)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>';
-  pts.forEach(function(p, i){ s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(p.w).toFixed(1) + '" r="1.8" fill="var(--sage-l)"/>'; });
+  /* 数据色：原始记录=品牌绿浅阶，7 日均线=品牌绿主阶，最新点加实心锚点（不靠颜色单独表意） */
+  s += '<polyline points="' + rawPts + '" fill="none" stroke="var(--brand-300)" stroke-width="1.6" stroke-linejoin="round"/>';
+  s += '<polyline points="' + maPts + '" fill="none" stroke="var(--brand)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>';
+  pts.forEach(function(p, i){ s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(p.w).toFixed(1) + '" r="1.6" fill="var(--brand-400)"/>'; });
+  var li = n - 1;
+  s += '<circle cx="' + X(li).toFixed(1) + '" cy="' + Y(pts[li].w).toFixed(1) + '" r="3.6" fill="var(--brand)"/>';
+  s += '<text x="' + (X(li) - 6).toFixed(1) + '" y="' + (Y(pts[li].w) - 8).toFixed(1) + '" font-size="10" font-weight="600" fill="var(--ink)" text-anchor="end">最新 ' + pts[li].w + '</text>';
   s += '<text x="' + pl + '" y="' + (H - 6) + '" font-size="9" fill="var(--chart-axis)">' + fmtDate(pts[0].date) + '</text>';
   s += '<text x="' + (W - pr) + '" y="' + (H - 6) + '" font-size="9" fill="var(--chart-axis)" text-anchor="end">' + fmtDate(pts[n - 1].date) + '</text>';
   s += '</svg>';
@@ -1935,6 +2323,9 @@ function eqCardHTML(e){
        +  '<span class="tag m">' + e.scene + '</span></div></div>';
 
   h += '<div class="eq-stage' + (act.animated && act.poses.b ? ' animated' : '') + '">' + eqStageSVG(act) + '</div>';
+  /* 节奏条：与两态循环同步，示意「起—停—回」的力度曲线（替代逐关节高亮） */
+  h += '<div class="eq-tempo"><span class="lb">节奏 ' + (act.animated && act.poses.b ? '2s 起 / 2s 回' : '匀速') + '</span>'
+     + '<span class="tk"><i></i></span></div>';
 
   if (e.actions.length > 1){
     h += '<div class="chips">' + e.actions.map(function(a){
@@ -2151,6 +2542,35 @@ function addedInMeal(date, meal, fid){
   return s;
 }
 
+/* 按当前时间挑最可能的餐次：「＋ 记一笔」默认落到这一餐，省一次选择 */
+function defaultMealNow(){
+  var h = new Date().getHours();
+  if (h < 5) return "snack";
+  if (h < 10) return "breakfast";
+  if (h < 15) return "lunch";
+  if (h < 21) return "dinner";
+  return "snack";
+}
+/* 最近 14 天出现次数最多的食材（添加食物页前置，减少翻列表） */
+function frequentFoods(n){
+  var counts = {}, lastSeen = {};
+  Object.keys(DB.logs).sort().slice(-14).forEach(function(d){
+    var L = DB.logs[d]; if (!L || !L.meals) return;
+    MEALS.forEach(function(m){
+      (L.meals[m[0]] || []).forEach(function(it){
+        if (it.fid == null) return;
+        counts[it.fid] = (counts[it.fid] || 0) + 1;
+        lastSeen[it.fid] = d;
+      });
+    });
+  });
+  return Object.keys(counts).map(function(fid){
+    return { f: findFood(fid), n: counts[fid], last: lastSeen[fid] };
+  }).filter(function(x){ return !!x.f; })
+    .sort(function(a, b){ return (b.n - a.n) || (b.last > a.last ? 1 : -1); })
+    .slice(0, n || 6);
+}
+
 function pickerHTML(){
   var q = state.foodQ.trim(), h = "";
   var cat = state.sheet && state.sheet.cat ? state.sheet.cat : state.foodCat;
@@ -2159,11 +2579,24 @@ function pickerHTML(){
     if (q && f.name.indexOf(q) < 0) return false;
     return true;
   });
+  var Sd = state.sheet;
+  /* 最近常吃前置：让「记一餐」压到三步内（只在未搜索 + 全分类时出现，不干扰筛选） */
+  var freqBlock = "";
+  if (!q && cat === "全部") {
+    var freq = frequentFoods(6);
+    if (freq.length) {
+      freqBlock = '<div class="f-cap" style="margin:0 0 6px;">最近常吃 · 一点就能记</div>'
+        + '<div class="chips" style="flex-wrap:wrap;overflow:visible;margin-bottom:12px;">'
+        + freq.map(function(x){ return '<button type="button" class="chip" data-act="pick" data-id="' + x.f.id + '">' + esc(x.f.name) + '</button>'; }).join("")
+        + '</div>';
+    }
+  }
   if (!list.length) {
-    return '<div class="empty">没找到「' + esc(q || "该分类") + '」。可以手动估算，或新建为自定义食材</div>'
+    return freqBlock
+      + '<div class="empty">没找到「' + esc(q || "该分类") + '」。可以手动估算，或新建为自定义食材</div>'
       + '<button type="button" class="btn block" data-act="newFormToggle">+ 新建食材并加入本餐</button>';
   }
-  var Sd = state.sheet;
+  h += freqBlock;
   list.forEach(function(f){
     var e = eff(f), on = Sd && Sd.sel && Sd.sel.id === f.id;
     var unitTxt = (f.unit === "g" || f.unit === "ml") ? "论克记" : ("1 " + esc(unitLabelOf(f)) + " ≈ " + num(f.per, 100) + " g");
@@ -2176,7 +2609,7 @@ function pickerHTML(){
        + '<div class="pd">每 100g ' + e.kcal + ' kcal · 蛋' + e.p + ' 碳' + e.c + ' 脂' + e.f + ' · ' + unitTxt + '</div>'
        + addedLine
        + '</div>'
-       + '<span style="color:var(--sage);font-weight:700;">选</span></div>';
+       + '<span style="color:var(--accent-text);font-weight:700;">选</span></div>';
   });
   return h;
 }
@@ -2408,12 +2841,24 @@ function buildPlans(){
 }
 
 /* ============ planner bottom sheet ============ */
-function openPlanner(){
+function openPlanner(btn){
   if (!compute()) { toast("先填好身高体重"); setTab("calc"); return; }
-  state.sheet = { type:"planner", date: state.date || todayKey(),
-                  goal: DB.profile.goal || "fatloss", level: DB.profile.level || 3,
-                  opt:{ breakfast:0, lunch:0, dinner:0 }, plans: buildPlans() };
-  openSheet("按档位配三餐", plannerSheetHTML());
+  var b = btn && btn.classList ? btn : null, sp = null;
+  function build(){
+    state.sheet = { type:"planner", date: state.date || todayKey(),
+                    goal: DB.profile.goal || "fatloss", level: DB.profile.level || 3,
+                    opt:{ breakfast:0, lunch:0, dinner:0 }, plans: buildPlans() };
+    openSheet("按档位配三餐", plannerSheetHTML());
+  }
+  if (!b) { build(); return; }
+  /* 组合枚举在大食材库下可能 >200ms：先绘制 spinner，再计算 */
+  b.classList.add("busy");
+  sp = document.createElement("span"); sp.className = "spinner"; b.insertBefore(sp, b.firstChild);
+  setTimeout(function(){
+    build();
+    b.classList.remove("busy");
+    if (sp && sp.parentNode) sp.parentNode.removeChild(sp);
+  }, 30);
 }
 
 function plannerSheetHTML(){
@@ -2439,17 +2884,17 @@ function plannerSheetHTML(){
      + '<div class="kv"><span>基础代谢 BMR</span><b>' + c.bmr + ' kcal</b></div>'
      + '<div class="kv mt6"><span>每日消耗 TDEE（含日常活动）</span><b>' + c.tdee + ' kcal</b></div>'
      + '<div class="kv mt6"><span>' + (c.isGain ? "增肌盈余" : "热量缺口") + '（' + GOAL_LABEL[g] + ' · ' + lv + ' 档）</span>'
-     + '<b style="color:' + (c.isGain ? "var(--ok)" : "var(--warn)") + ';">' + (c.isGain ? "+" + (DB.profile.surplus || 0) : "−" + c.deficit) + ' kcal</b></div>'
+     + '<b style="color:' + (c.isGain ? "var(--ok)" : "var(--warning-text)") + ';">' + (c.isGain ? "+" + (DB.profile.surplus || 0) : "−" + c.deficit) + ' kcal</b></div>'
      + (c.warns || []).map(function(w){
-        return '<div class="f-cap mt6" style="color:var(--warn);">' + esc(w.text) + '</div>';
+        return '<div class="f-cap mt6" style="color:var(--warning-text);">' + esc(w.text) + '</div>';
       }).join("")
-     + '<div class="kv mt6"><span>每日目标</span><b style="color:var(--blue);">' + c.targetCal + ' kcal</b></div>'
+     + '<div class="kv mt6"><span>每日目标</span><b style="color:var(--accent-text);">' + c.targetCal + ' kcal</b></div>'
      + '<div class="kv mt6"><span>蛋白目标</span><b>' + c.protein + ' g</b></div>'
      + '<div class="f-cap mt6">体重 ' + (DB.profile.weight == null ? "—" : DB.profile.weight) + ' kg × ' + c.pFactor + ' g/kg（系数按档位），已过 35% 热量闸与 200g 上限</div>'
      + '<div class="kv mt6"><span>三餐拆分（早 / 午 / 晚）</span><b>' + c.split.breakfast + '% / ' + c.split.lunch + '% / ' + c.split.dinner + '%</b></div>'
      + '<div class="f-cap mt6">拆到每餐：早 ' + c.mealTarget.breakfast + ' · 午 ' + c.mealTarget.lunch + ' · 晚 ' + c.mealTarget.dinner
      + ' kcal；蛋白 ' + c.mealMacro.breakfast.p + ' / ' + c.mealMacro.lunch.p + ' / ' + c.mealMacro.dinner.p + ' g。下面的方案就是照这些数，用你自己的食材库凑的。</div>'
-     + (c.splitWarn ? '<div class="f-cap mt6" style="color:var(--warn);">' + esc(c.splitWarn) + '</div>' : '')
+     + (c.splitWarn ? '<div class="f-cap mt6" style="color:var(--warning-text);">' + esc(c.splitWarn) + '</div>' : '')
      + '</div>';
   h += plannerPlansHTML(S);
   h += '<div class="f-cap" style="text-align:center;padding:4px 0;">配餐按你食材库里的整袋/整个来凑，数字大概齐、能反查。记入后可随时删。</div>';
@@ -2693,7 +3138,7 @@ document.addEventListener("click", function(ev){
 
     case "add": openAdd(el.dataset.d, el.dataset.m); break;
     case "closeSheet": closeSheet(); break;
-    case "openPlanner": openPlanner(); break;
+    case "openPlanner": openPlanner(el); break;
 
     /* 每餐搭配：切档位即重配并写库 */
     case "pGoal": {
@@ -2853,10 +3298,40 @@ document.addEventListener("click", function(ev){
 
     case "delItem": {
       var d = el.dataset.d, m = el.dataset.m, i = num(el.dataset.i, 0);
-      var L = DB.logs[d]; if (L && L.meals && L.meals[m]) { L.meals[m].splice(i, 1); save(); }
+      var L = DB.logs[d];
+      var removed = null;
+      if (L && L.meals && L.meals[m] && L.meals[m][i]) {
+        removed = L.meals[m][i];
+        L.meals[m].splice(i, 1); save();
+      }
       if (state.tab === "today") renderToday(); else renderMe();
+      if (removed) {
+        toast("已删除「" + removed.name + "」", "撤销", function(){
+          var L2 = DB.logs[d];
+          if (!L2 || !L2.meals || !Array.isArray(L2.meals[m])) return;
+          L2.meals[m].splice(Math.min(i, L2.meals[m].length), 0, removed);
+          save();
+          if (state.tab === "today") renderToday(); else renderMe();
+          toast("已恢复");
+        });
+      }
       break;
     }
+    case "undo": {
+      var fn = toast._fn;
+      toast._fn = null;
+      var tEl = $("toast"); if (tEl) tEl.classList.remove("show");
+      var aEl = $("toastAct"); if (aEl) aEl.classList.add("hidden");
+      if (fn) fn();
+      break;
+    }
+    case "openMeal": {
+      var md = el.dataset.d, mk = el.dataset.m;
+      state.detailKey = { d: md, m: mk };
+      openDetail(MEAL_NAME[mk] + " · " + fmtDate(md), renderMealDetail(md, mk));
+      break;
+    }
+    case "detailBack": closeDetail(); break;
     case "saveWeight": {
       var wv = num($("wInput").value, NaN);
       if (!(wv > 0)) { toast("请输入有效体重"); break; }
