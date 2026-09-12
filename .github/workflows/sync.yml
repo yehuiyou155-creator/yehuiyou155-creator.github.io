@@ -18,7 +18,7 @@ jobs:
 
       - name: Fetch latest app files
         env:
-          BASE: https://4457bf3d3f8b4aacb1a4b06869644f5f.app.workbuddy.link
+          BASE: https://dorm-fatloss-09988.app.workbuddy.host
         run: |
           ok=1
           for f in index.html dorm-fatloss.html sw.js manifest.webmanifest icon.svg icon-192.png icon-512.png apple-touch-icon.png; do
